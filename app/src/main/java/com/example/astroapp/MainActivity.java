@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             LonDeg =savedInstanceState.getString("LonDeg");
             LonMin =savedInstanceState.getString("LonMin");
             LonD=savedInstanceState.getString("LonD");
+            System.out.println("Test gita");
 
         }
         coordsWidgetTextViewV.setText(LatDeg+"°"+LatMin+"'"+LatD+"  "+ LonDeg+"°"+LonMin+"'"+LonD);
