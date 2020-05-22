@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">AstroApp</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="moon_picture">Moon picture</string>
+    <string name="sun_picture">Sun picture</string>
+    <string name="input_coords">Wprowadź współrzędne</string>
+    <string name="latitude">Szerokość geograficzna</string>
+    <string name="longitude">Długość geograficzna</string>
+    <string name="interval">Częstotliwość odświeżania</string>
+
+    <string-array name="LatDirs">
+        <item>N</item>
+        <item>S</item>
+    </string-array>
+
+    <string-array name="LonDirs">
+        <item>E</item>
+        <item>W</item>
+    </string-array>
+
+    <string-array name="updateIntervals">
+        <item>2s</item>
+        <item>5s</item>
+        <item>30s</item>
+        <item>60s</item>
+        <item>15min</item>
+    </string-array>
+</resources>

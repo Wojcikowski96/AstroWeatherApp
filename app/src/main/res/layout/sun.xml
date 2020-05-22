@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Sun"
+    android:weightSum="12"
+    android:orientation="vertical"
+    android:background="@color/black"
+    android:tag="sun">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:contentDescription="@string/sun_picture"
+        android:src="@drawable/sun" />
+
+    <TextView
+        android:id="@+id/sunRiseTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:layout_weight="1"
+        android:maxLines="1"
+
+ />
+    <TextView
+        android:id="@+id/sunRiseAzimuthTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:layout_weight="1"
+        android:maxLines="1"
+
+ />
+
+    <TextView
+        android:id="@+id/sunSetTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:layout_weight="1"
+        android:maxLines="1"
+        />
+    <TextView
+        android:id="@+id/sunSetAzimuthTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:layout_weight="1"
+        android:maxLines="1"
+        />
+    <TextView
+        android:id="@+id/sunRiseTwilightTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:layout_weight="1"
+        android:maxLines="1"
+        />
+    <TextView
+        android:id="@+id/sunSetTwilightTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:layout_weight="1"
+        android:maxLines="1"
+        />
+
+
+
+</LinearLayout>
