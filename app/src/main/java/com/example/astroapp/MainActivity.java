@@ -1,6 +1,5 @@
 package com.example.astroapp;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,11 +10,6 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
-import com.google.android.material.textfield.TextInputLayout;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
     static Bundle sunData;
@@ -28,11 +22,13 @@ public class MainActivity extends AppCompatActivity {
     String LonDeg = "19";
     String LonMin = "28";
     String LonD = "E";
+    String interval = "2s";
     public static TextView time, coordsWidgetTextViewV;
 
     static ViewPagerAdapter viewPagerAdapter;
     public static int orientation;
     public static int smallestScreenWidth;
+    public static double[] calculatedCoords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
         orientation = getResources().getConfiguration().orientation;
         smallestScreenWidth = getResources().getConfiguration().smallestScreenWidthDp;
 
-        double[] calculatedCoords = settings.convertFromNSEW(LatD,LatDeg,LatMin,LonD,LonDeg,LonMin);
+        calculatedCoords = settings.convertFromNSEW(LatD,LatDeg,LatMin,LonD,LonDeg,LonMin);
+
         int[] currTime=settings.getCurrentTime();
 
         stringsToBundleSun = AstroCalculations.astroCalculations(calculatedCoords, currTime,"sun");
@@ -68,9 +65,10 @@ public class MainActivity extends AppCompatActivity {
             LonDeg =savedInstanceState.getString("LonDeg");
             LonMin =savedInstanceState.getString("LonMin");
             LonD=savedInstanceState.getString("LonD");
-            System.out.println("Test gita");
+            interval=savedInstanceState.getString("IntervalFromSettings");
 
         }
+        //Refresher.myRunable(settings.handlers, settings.runnables, interval, calculatedCoords);
         coordsWidgetTextViewV.setText(LatDeg+"°"+LatMin+"'"+LatD+"  "+ LonDeg+"°"+LonMin+"'"+LonD);
     }
 
@@ -94,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
             openSettingsActivity();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -106,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override protected void onDestroy() {
         // TODO Auto-generated method stub
-        System.out.println("Niszczę main activity");
         if (settings.handlers.size()>0 && settings.runnables.size()>0) {
             settings.handlers.get(settings.handlers.size() - 1).removeCallbacks(settings.runnables.get(settings.runnables.size() - 1));
         }
@@ -121,5 +117,22 @@ public class MainActivity extends AppCompatActivity {
         outState.putString("LonDeg",settings.LonDeg);
         outState.putString("LonMin",settings.LonMin);
         outState.putString("LonD",settings.LonD);
+        outState.putString("IntervalFromSettings",settings.interval);
+    }
+
+    @Override protected void onPause() {
+        super.onPause();
+        Refresher.clearRefresherThread(settings.handlers,settings.runnables);
+    }
+
+    @Override protected void onResume() {
+        if(settings.checkIfButton){
+            Refresher.clearRefresherThread(settings.handlers,settings.runnables);
+            Refresher.myRunable(settings.handlers, settings.runnables, settings.interval, settings.calculatedCoords);
+        }else{
+            Refresher.clearRefresherThread(settings.handlers,settings.runnables);
+            Refresher.myRunable(settings.handlers, settings.runnables, interval, calculatedCoords);
+        }
+        super.onResume();
     }
 }

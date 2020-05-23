@@ -10,6 +10,7 @@ public class AstroCalculations {
 
         String[] astroData = new String[6];
         int hour, minute;
+
         AstroCalculator.Location l = new AstroCalculator.Location(calculatedCoords[0], calculatedCoords[1]);
 
         AstroDateTime t = new AstroDateTime(currTime[0], currTime[1], currTime[2], currTime[3], currTime[4], currTime[5], currTime[6],true);
@@ -17,8 +18,6 @@ public class AstroCalculations {
         AstroCalculator a = new AstroCalculator(t,l);
 
         if(type.equals("sun")){
-
-            System.out.println(a.getSunInfo().getSunrise());
 
             hour=a.getSunInfo().getSunrise().getHour();
             minute =a.getSunInfo().getSunrise().getMinute();
@@ -51,7 +50,6 @@ public class AstroCalculations {
 
         }else if(type.equals("moon")){
 
-            System.out.println(a.getMoonInfo().getMoonrise());
             hour=a.getMoonInfo().getMoonrise().getHour();
             minute=a.getMoonInfo().getMoonrise().getMinute();
 

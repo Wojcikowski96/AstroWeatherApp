@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -27,18 +28,22 @@ public class settings extends AppCompatActivity {
     public static String LonMin = "28";
     public static String LonD = "E";
     Button Submit;
-    double[] calculatedCoords;
+    public static double[] calculatedCoords;
     int LatDSelection;
     Spinner LatDir,LonDir, freqSpinner;
     int LonDSelection;
+    int intervalSelection;
     public static List<Handler> handlers = new ArrayList<>();
     public static List<Runnable> runnables = new ArrayList<>();
     public static String[] sunStrings;
     public static String[] moonStrings;
+    public static boolean checkIfButton = false;
+    public static String interval;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         System.out.println("On create settings");
         setContentView(R.layout.activity_settings);
 
@@ -68,25 +73,37 @@ public class settings extends AppCompatActivity {
             LatMin=savedInstanceState.getString("LatMin");
             LatD=savedInstanceState.getString("LatD");
 
-            if (LatD.equals("N")) {
-                LatDSelection=0;
-            } else {LatDSelection=1;}
-
             LonDeg =savedInstanceState.getString("LonDeg");
             LonMin =savedInstanceState.getString("LonMin");
             LonD=savedInstanceState.getString("LonD");
 
-            if (LonD.equals("E")) {
-                LonDSelection=0;
-            } else {LonDSelection=1;}
+            interval=savedInstanceState.getString("Interval");
+            System.out.println("Interval "+interval);
+
+            System.out.println("Interval Selection "+intervalSelection);
         }
 
         LatDegrees.setText(LatDeg);
         LatMinutes.setText(LatMin);
+
+        if (LatD.equals("N")) {
+            LatDSelection=0;
+        } else {LatDSelection=1;}
+
         LatDir.setSelection(LatDSelection);
         LonDegrees.setText(LonDeg);
         LonMinutes.setText(LonMin);
+
+        if (LonD.equals("E")) {
+            LonDSelection=0;
+        } else {LonDSelection=1;}
+
         LonDir.setSelection(LonDSelection);
+
+        String[] items = getResources().getStringArray(R.array.updateIntervals);
+        intervalSelection=Arrays.asList(items).indexOf(interval);
+
+        freqSpinner.setSelection(intervalSelection);
 
         System.out.println("Deg dla Lat "+LatDeg);
         System.out.println("Min dla Lat "+LatMin);
@@ -94,11 +111,12 @@ public class settings extends AppCompatActivity {
         System.out.println("Deg dla Lon "+LonDeg);
         System.out.println("Min dla Lon "+LonMin);
         System.out.println("Dir dla Lon "+LonD);
+        System.out.println("Interval "+interval);
 
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                checkIfButton=true;
                 String[] coords = getTextFromSettings(LatDegrees, LatMinutes, LatDir, LonDegrees, LonMinutes, LonDir);
 
                 boolean checkIfError = Utils.checkForInputErrors(coords);
@@ -120,9 +138,9 @@ public class settings extends AppCompatActivity {
                 }
                 if(checkIfError && checkForRange){
 
-                    calculatedCoords = settings.convertFromNSEW(coords[3],coords[0],coords[1],coords[5],coords[3],coords[4]);
+                    calculatedCoords = convertFromNSEW(coords[2],coords[0],coords[1],coords[5],coords[3],coords[4]);
 
-                    int[] currTime=settings.getCurrentTime();
+                    int[] currTime=getCurrentTime();
 
                     sunStrings = AstroCalculations.astroCalculations(calculatedCoords, currTime,"sun");
                     moonStrings = AstroCalculations.astroCalculations(calculatedCoords, currTime,"moon");
@@ -133,51 +151,18 @@ public class settings extends AppCompatActivity {
                     Moon moon = (Moon) MainActivity.viewPagerAdapter.getItem(1);
                     moon.update(moonStrings);
 
-                    if (handlers.size()>0 && runnables.size()>0) {
-                        handlers.get(handlers.size() - 1).removeCallbacks(runnables.get(runnables.size() - 1));
-                        handlers.clear();
-                        runnables.clear();
-                    }
-                    final Handler refreshHandler = new Handler();
+                    Refresher.clearRefresherThread(handlers,runnables);
 
-                    handlers.add(refreshHandler);
-                    String interval = freqSpinner.getSelectedItem().toString();
-                    int delay = 0;
+                    interval = freqSpinner.getSelectedItem().toString();
 
-                    if(interval.charAt(interval.length()-1)=='s'){
-                        delay = Integer.parseInt(interval.substring(0,interval.length()-1));
-                        System.out.println("liczba do przekazania" + delay);
-                    }else{
-                        delay = Integer.parseInt(interval.substring(0,interval.length()-3)) * 60;
-                        System.out.println("liczba sekund z minut do przekazania" + delay);
-                    }
-                    final int finalDelay = delay;
+                    Refresher.myRunable(handlers, runnables, interval, calculatedCoords);
 
-                    Runnable runnable = new Runnable() {
-                        @Override
-                        public void run() {
-
-                            int[] currTime=settings.getCurrentTime();
-                            String[] sunStrings = AstroCalculations.astroCalculations(calculatedCoords, currTime,"sun");
-                            String[] moonStrings = AstroCalculations.astroCalculations(calculatedCoords, currTime,"moon");
-
-                            Sun sun = (Sun) MainActivity.viewPagerAdapter.getItem(0);
-                            sun.update(sunStrings);
-
-                            Moon moon = (Moon) MainActivity.viewPagerAdapter.getItem(1);
-                            moon.update(moonStrings);
-
-                            refreshHandler.postDelayed(this, finalDelay * 1000);
-                        }
-                    };
-
-                    runnables.add(runnable);
-                    refreshHandler.postDelayed(runnable, delay * 1000);
                     MainActivity.coordsWidgetTextViewV.setText(LatDeg+"°"+LatMin+"'"+LatD+"  "+ LonDeg+"°"+LonMin+"'"+LonD);
                 }}
 
 
         });
+
     }
 
     public static String []  getTextFromSettings(EditText LatDegrees, EditText LatMinutes, Spinner LatDir, EditText LonDegrees, EditText LonMinutes, Spinner LonDir){
@@ -237,12 +222,23 @@ public class settings extends AppCompatActivity {
         outState.putString("LonDeg",LonDeg);
         outState.putString("LonMin",LonMin);
         outState.putString("LonD",LonD);
+        outState.putString("Interval",interval);
     }
 
     @Override
     public void onDestroy() {
         // TODO Auto-generated method stub
-        System.out.println("Niszczę settings activity");
         super.onDestroy();
+        System.out.println("Niszczę settings activity");
+    }
+
+    @Override protected void onPause() {
+        super.onPause();
+        System.out.println("Pauzuję settings activity");
+    }
+
+    @Override protected void onStop() {
+        super.onStop();
+        System.out.println("Stopuję settings activity");
     }
 }
