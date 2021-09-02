@@ -1,5 +1,6 @@
 package com.example.astroapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -66,7 +67,6 @@ public class Sun extends Fragment
     }
 
     void update(String[] sunStrings) {
-        System.out.println("Update sun");
 
         sunRiseTime=sunStrings[0];
         sunRiseAzimuth=sunStrings[1];

@@ -43,6 +43,7 @@ public class Moon extends Fragment {
         }
 
         View view = inflater.inflate(R.layout.moon, container, false);
+
         moonRiseTimeTextView = (TextView) view.findViewById(R.id.moonRiseTimeTextView);
         moonSetTimeTextView = (TextView) view.findViewById(R.id.moonSetTimeTextView);
         nextNewMoonTextView = (TextView) view.findViewById(R.id.nextNewMoonTextView);
@@ -60,7 +61,7 @@ public class Moon extends Fragment {
         return view;
     }
     void update(String[] moonStrings) {
-        System.out.println("Update moon");
+
         moonRiseTime = moonStrings[0];
         moonSetTime = moonStrings[1];
         nextNewMoon = moonStrings[2];
