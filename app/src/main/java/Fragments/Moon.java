@@ -1,4 +1,4 @@
-package com.example.astroapp;
+package Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import com.example.astroapp.R;
 
 public class Moon extends Fragment {
     TextView moonRiseTimeTextView;
@@ -60,7 +62,7 @@ public class Moon extends Fragment {
 
         return view;
     }
-    void update(String[] moonStrings) {
+    public void update(String[] moonStrings) {
 
         moonRiseTime = moonStrings[0];
         moonSetTime = moonStrings[1];

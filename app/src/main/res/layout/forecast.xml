@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical"
+    android:tag="forecast"
+    tools:context="Fragments.ForecastWeather">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:text="@string/forecast"
+        android:textColor="@color/white"
+        app:autoSizeTextType="uniform" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/day1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <ImageView
+            android:id="@+id/d1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/wind">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/temperature1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <TextView
+            android:id="@+id/description1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform"
+            android:maxLines="2"
+            android:breakStrategy="simple"
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/day2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <ImageView
+            android:id="@+id/d2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/wind">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/temperature2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <TextView
+            android:id="@+id/description2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform"
+            android:maxLines="2"
+            android:breakStrategy="simple"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/day3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <ImageView
+            android:id="@+id/d3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/wind">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/temperature3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <TextView
+            android:id="@+id/description3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform"
+            android:maxLines="2"
+            android:breakStrategy="simple"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/day4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <ImageView
+            android:id="@+id/d4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/wind">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/temperature4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <TextView
+            android:id="@+id/description4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:breakStrategy="simple"
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/day5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <ImageView
+            android:id="@+id/d5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/wind">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/temperature5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <TextView
+            android:id="@+id/description5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:maxLines="2"
+            android:breakStrategy="simple"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/day6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform"
+            />
+
+        <ImageView
+            android:id="@+id/d6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/wind">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/temperature6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <TextView
+            android:id="@+id/description6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:breakStrategy="simple"
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/day7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <ImageView
+            android:id="@+id/d7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/wind">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/temperature7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <TextView
+            android:id="@+id/description7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:maxLines="2"
+            android:breakStrategy="simple"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/day8"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <ImageView
+            android:id="@+id/d8"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/wind">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/temperature8"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <TextView
+            android:id="@+id/description8"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:maxLines="2"
+            android:breakStrategy="simple"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/day9"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <ImageView
+            android:id="@+id/d9"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/wind">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/temperature9"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <TextView
+            android:id="@+id/description9"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:maxLines="2"
+            android:breakStrategy="simple"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/day10"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <ImageView
+            android:id="@+id/d10"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/wind"
+            android:layout_weight="1">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/temperature10"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+        <TextView
+            android:id="@+id/description10"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:maxLines="2"
+            android:breakStrategy="simple"/>
+
+    </LinearLayout>
+
+</LinearLayout>
