@@ -1,4 +1,4 @@
-package com.example.astroapp;
+package Interfaces;
 
 import android.app.Activity;
 

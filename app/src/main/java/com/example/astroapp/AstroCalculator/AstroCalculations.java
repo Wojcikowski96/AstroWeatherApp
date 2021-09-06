@@ -1,9 +1,10 @@
-package com.example.astroapp;
+package com.example.astroapp.AstroCalculator;
 
 import android.os.Bundle;
 
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
+import com.example.astroapp.Utils;
 
 public class AstroCalculations {
     public static String[] astroCalculations(double [] calculatedCoords, int [] currTime, String type) {

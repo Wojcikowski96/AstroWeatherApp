@@ -1,4 +1,4 @@
-package com.example.astroapp;
+package LocationDatabase;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -63,7 +63,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.delete("FavCities", "Id = ? ", new String[] { Integer.toString(id) });
     }
 
-    ArrayList<String> getAll() {
+    public ArrayList<String> getAll() {
         ArrayList<String> array_list = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -78,12 +78,12 @@ public class DBHelper extends SQLiteOpenHelper {
         return array_list;
     }
 
-    Integer deleteAllRecords() {
+    public Integer deleteAllRecords() {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete("FavCities",null,null);
     }
 
-    String getData(String name, String data) {
+    public String getData(String name, String data) {
 
         SQLiteDatabase db = this.getReadableDatabase();
         String query="select * from FavCities where Name=?";
@@ -95,7 +95,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return dbResult;
     }
 
-    boolean checkIfRecordExists(String name) {
+    public boolean checkIfRecordExists(String name) {
 
         SQLiteDatabase db = this.getReadableDatabase();
         String query="select * from FavCities where Name=?";

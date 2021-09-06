@@ -41,7 +41,7 @@ public class BasicWeatherData extends Fragment implements FragmentInterface {
             Bundle savedInstanceState
     ) {
         View view = inflater.inflate(R.layout.basic, container, false);
-
+        System.out.println("tworzę basic fragment");
         cityTextView = (TextView) view.findViewById(R.id.city);
         pressureTextView = (TextView) view.findViewById(R.id.pressure);
         temperatureTextView = (TextView) view.findViewById(R.id.temperature);
@@ -56,7 +56,7 @@ public class BasicWeatherData extends Fragment implements FragmentInterface {
             isCelsiusGlobal = savedInstanceState.getInt("isCelsius");
         }
         System.out.println("City: "+city);
-        Map<String, Object> weatherData = getDataFromJson(city+",", isCelsiusGlobal, getActivity());
+        Map<String, Object> weatherData = getDataFromJson(city, isCelsiusGlobal, getActivity());
 
         updateCurrentFragment(weatherData, getActivity());
 
@@ -80,28 +80,32 @@ public class BasicWeatherData extends Fragment implements FragmentInterface {
     @Override
     public Map<String, Object> getDataFromJson(String location, int isCelsius, Activity activity) {
         Map<String, Object> weatherInfoFromJson = new HashMap<String, Object>();
-        System.out.println("Location in getDataFromJson: "+location);
-        JSONObject jsonObject = JSONReader.JSONReadAndParse(activity,location);
-        System.out.println("JsonObject w get: "+jsonObject);
+        if(location.contains("/")){
+            String [] locationParts = location.split("/");
+            location = locationParts[1];
+        }
+        JSONObject jsonObject = JSONReader.JSONReadAndParse(activity,location.toLowerCase());
+        System.out.println("JsonObject w basic "+jsonObject);
         String tempUnit;
         String pressureUnit;
         isCelsiusGlobal=isCelsius;
 
         if(jsonObject!=null) {
-            city = (String) ((JSONObject) ((JSONObject) jsonObject.get("response")).get("place")).get("name");
+            city = (String) ((JSONObject) ((JSONObject) jsonObject.get("response")).get("profile")).get("tz");
             description = (String) ((JSONObject) ((JSONObject) jsonObject.get("response")).get("ob")).get("weather");
-            pressure = (((JSONObject) ((JSONObject) jsonObject.get("response")).get("ob")).get("pressureMB")).toString();
             weatherPictureName = (String) ((JSONObject) ((JSONObject) jsonObject.get("response")).get("ob")).get("icon");
 
             if (isCelsius == 0) {
-                tempUnit = "°C";
-                pressureUnit = "hPa";
-                temperature = (((JSONObject) ((JSONObject) jsonObject.get("response")).get("ob")).get("tempC")).toString();
+                tempUnit = " °C";
+                pressureUnit = " hPa";
+                pressure = (((JSONObject) ((JSONObject) jsonObject.get("response")).get("ob")).get("pressureMB")).toString() + pressureUnit;
+                temperature = (((JSONObject) ((JSONObject) jsonObject.get("response")).get("ob")).get("tempC")).toString() + tempUnit;
             }
             else {
                 tempUnit = "°F";
-                pressureUnit = "''Hg";
-                temperature = (((JSONObject) ((JSONObject) jsonObject.get("response")).get("ob")).get("tempF")).toString();
+                pressureUnit = " Hg";
+                pressure = (((JSONObject) ((JSONObject) jsonObject.get("response")).get("ob")).get("pressureIN")).toString() + pressureUnit;
+                temperature = (((JSONObject) ((JSONObject) jsonObject.get("response")).get("ob")).get("tempF")).toString()+ tempUnit;
             }
 
             weatherInfoFromJson.put("City", city);
@@ -121,8 +125,8 @@ public class BasicWeatherData extends Fragment implements FragmentInterface {
     public void updateCurrentFragment(Map<String, Object> jsonData, Activity activity) {
         cityTextView.setText(jsonData.get("City").toString());
         descriptionTextView.setText(jsonData.get("Description").toString());
-        pressureTextView.setText(jsonData.get("Pressure").toString()+" Hpa");
-        temperatureTextView.setText(jsonData.get("Temperature").toString()+" °C");
+        pressureTextView.setText(jsonData.get("Pressure").toString());
+        temperatureTextView.setText(jsonData.get("Temperature").toString());
 
         String fullPictureName =  jsonData.get("Picture Name").toString();
         String[] splitedImageName = fullPictureName.split("[.]");
@@ -131,7 +135,6 @@ public class BasicWeatherData extends Fragment implements FragmentInterface {
         icon = activity.getResources().getIdentifier(imagenameNoExtension, "drawable",
                 activity.getPackageName());
 
-        System.out.println("Kod obrazka"+ icon);
         weatherPictureImageView.setImageResource(icon);
     }
 }

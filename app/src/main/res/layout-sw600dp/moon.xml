@@ -24,10 +24,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:textColor="#FFFFFF"
-        app:autoSizeMaxTextSize="20sp"
+        android:textSize="38sp"
         android:layout_weight="1"
-        app:autoSizeTextType="uniform"
-        android:maxLines="1"
+        android:maxLines="2"
         android:gravity="center"
         />
     <TextView
@@ -35,10 +34,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:textColor="#FFFFFF"
-        app:autoSizeMaxTextSize="20sp"
+        android:textSize="38sp"
         android:layout_weight="1"
-        app:autoSizeTextType="uniform"
-        android:maxLines="1"
+        android:maxLines="2"
         android:gravity="center"
         />
     <TextView
@@ -46,10 +44,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:textColor="#FFFFFF"
-        app:autoSizeMaxTextSize="20sp"
+        android:textSize="38sp"
         android:layout_weight="1"
-        app:autoSizeTextType="uniform"
-        android:maxLines="1"
+        android:maxLines="2"
         android:gravity="center"
         />
     <TextView
@@ -57,10 +54,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:textColor="#FFFFFF"
-        app:autoSizeMaxTextSize="20sp"
+        android:textSize="38sp"
         android:layout_weight="1"
-        app:autoSizeTextType="uniform"
-        android:maxLines="1"
+        android:maxLines="2"
         android:gravity="center"
         />
     <TextView
@@ -68,10 +64,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:textColor="#FFFFFF"
-        app:autoSizeMaxTextSize="20sp"
+        android:textSize="38sp"
         android:layout_weight="1"
-        app:autoSizeTextType="uniform"
-        android:maxLines="1"
+        android:maxLines="2"
         android:gravity="center"
         />
     <TextView
@@ -79,10 +74,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:textColor="#FFFFFF"
-        app:autoSizeMaxTextSize="20sp"
+        android:textSize="38sp"
         android:layout_weight="1"
-        app:autoSizeTextType="uniform"
-        android:maxLines="1"
+        android:maxLines="2"
         android:gravity="center"
         />
 </LinearLayout>

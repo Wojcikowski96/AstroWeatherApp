@@ -24,6 +24,7 @@ public class JSONReader {
 
 
             System.out.println("Wchodzę");
+            System.out.println("Lokacja w json readerze"+location);
             try (FileReader reader = new FileReader(activity.getCacheDir().toString() + "/AstroWeatherApp/"+location+"CurrentForecast.json")) {
                 jsonObject = (JSONObject) jsonParser.parse(reader);
             } catch (FileNotFoundException e) {

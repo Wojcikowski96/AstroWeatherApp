@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Sun"
+    tools:context="Fragments.Sun"
     android:weightSum="12"
     android:orientation="vertical"
     android:background="@color/black"
@@ -27,6 +27,7 @@
         android:textSize="20sp"
         android:layout_weight="1"
         android:maxLines="1"
+        android:gravity="center"
 
  />
     <TextView
@@ -37,6 +38,7 @@
         android:textSize="20sp"
         android:layout_weight="1"
         android:maxLines="1"
+        android:gravity="center"
 
  />
 
@@ -48,6 +50,7 @@
         android:textSize="20sp"
         android:layout_weight="1"
         android:maxLines="1"
+        android:gravity="center"
         />
     <TextView
         android:id="@+id/sunSetAzimuthTextView"
@@ -57,6 +60,7 @@
         android:textSize="20sp"
         android:layout_weight="1"
         android:maxLines="1"
+        android:gravity="center"
         />
     <TextView
         android:id="@+id/sunRiseTwilightTextView"
@@ -66,6 +70,7 @@
         android:textSize="20sp"
         android:layout_weight="1"
         android:maxLines="1"
+        android:gravity="center"
         />
     <TextView
         android:id="@+id/sunSetTwilightTextView"
@@ -75,6 +80,7 @@
         android:textSize="20sp"
         android:layout_weight="1"
         android:maxLines="1"
+        android:gravity="center"
         />
 
 

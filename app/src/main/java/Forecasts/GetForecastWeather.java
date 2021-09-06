@@ -1,4 +1,4 @@
-package com.example.astroapp;
+package Forecasts;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -35,7 +35,7 @@ public class GetForecastWeather extends AsyncTask<String, String, String> implem
     @Override
     public void createJsonFile(String jsonContent, String location, Activity activity) throws JSONException, IOException {
         JSONObject object = new JSONObject(jsonContent);
-        String filename = location+"Forecast.json";
+        String filename = location+"CurrentForecast.json";
         String dirName = activity.getCacheDir().toString() + "/AstroWeatherApp/";
         System.out.println("Sciezka pliku: "+activity.getCacheDir().toString() + "/AstroWeatherApp/");
         File dir = new File (dirName);

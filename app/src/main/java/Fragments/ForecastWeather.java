@@ -76,31 +76,31 @@ public class ForecastWeather extends Fragment {
     }
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void updateForecastFragment(String location, int isCelsius, Activity activity){
-        JSONObject jsonObject = JSONReader.JSONReadAndParse(activity,location);
-        String tempUnit;
-        isCelsiusGlobal=isCelsius;
-        if(jsonObject!=null) {
-            JSONArray forecast = (JSONArray) jsonObject.get("forecasts");
-            city = (String) ((JSONObject) jsonObject.get("location")).get("city");
-
-            for (int i = 0; i < 10; i++) {
-                days.set(i,(String) ((JSONObject) (forecast.get(i))).get("day"));
-                temperatures.set(i,(Long) ((JSONObject) (forecast.get(i))).get("high"));
-                texts.set(i,(String) ((JSONObject) (forecast.get(i))).get("text"));
-                codes.set(i,(Long) ((JSONObject) (forecast.get(i))).get("code"));
-            }
-
-            for (int i = 0; i < 10; i++) {
-                dayTextViews.get(i).setText(days.get(i));
-                imageViews.get(i).setImageResource(activity.getResources().getIdentifier("w" + codes.get(i), "drawable", MainActivity.PACKAGE_NAME));
-                if (isCelsius == 0)
-                    tempUnit = "°C";
-                else
-                    tempUnit = "°F";
-                temperatureTextViews.get(i).setText((temperatures.get(i)).toString() + tempUnit);
-                textTextViews.get(i).setText(texts.get(i));
-            }
-        }
+//        JSONObject jsonObject = JSONReader.JSONReadAndParse(activity,location);
+//        String tempUnit;
+//        isCelsiusGlobal=isCelsius;
+//        if(jsonObject!=null) {
+//            JSONArray forecast = (JSONArray) jsonObject.get("forecasts");
+//            city = (String) ((JSONObject) jsonObject.get("location")).get("city");
+//
+//            for (int i = 0; i < 10; i++) {
+//                days.set(i,(String) ((JSONObject) (forecast.get(i))).get("day"));
+//                temperatures.set(i,(Long) ((JSONObject) (forecast.get(i))).get("high"));
+//                texts.set(i,(String) ((JSONObject) (forecast.get(i))).get("text"));
+//                codes.set(i,(Long) ((JSONObject) (forecast.get(i))).get("code"));
+//            }
+//
+//            for (int i = 0; i < 10; i++) {
+//                dayTextViews.get(i).setText(days.get(i));
+//                imageViews.get(i).setImageResource(activity.getResources().getIdentifier("w" + codes.get(i), "drawable", MainActivity.PACKAGE_NAME));
+//                if (isCelsius == 0)
+//                    tempUnit = "°C";
+//                else
+//                    tempUnit = "°F";
+//                temperatureTextViews.get(i).setText((temperatures.get(i)).toString() + tempUnit);
+//                textTextViews.get(i).setText(texts.get(i));
+//            }
+//        }
     }
 
     @Override

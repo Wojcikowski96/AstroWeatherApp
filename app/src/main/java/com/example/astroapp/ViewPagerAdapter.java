@@ -10,6 +10,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import java.util.HashMap;
 import java.util.Map;
 
+import Fragments.AdditionalWeatherData;
+import Fragments.BasicWeatherData;
+import Fragments.ForecastWeather;
+import Fragments.Moon;
+import Fragments.Sun;
+
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     private Map<Integer, Fragment> fragments = new HashMap<Integer, Fragment>();
@@ -17,12 +23,18 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     ViewPagerAdapter(FragmentManager fm) {
 
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        BasicWeatherData basic = new BasicWeatherData();
+        fragments.put(0, basic);
+        AdditionalWeatherData additional = new AdditionalWeatherData();
+        fragments.put(1, additional);
+        ForecastWeather forecast = new ForecastWeather();
+        fragments.put(2, forecast);
         Sun sun = new Sun();
         sun.setArguments(MainActivity.sunData);
-        fragments.put(0, sun);
+        fragments.put(3, sun);
         Moon moon = new Moon();
         moon.setArguments(MainActivity.moonData);
-        fragments.put(1, moon);
+        fragments.put(4, moon);
     }
 
     @NonNull
@@ -31,11 +43,25 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         return fragments.get(position);
     }
 
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        super.getItemPosition(object);
+        System.out.println("getItemPosition");
+        int position=0;
+        for (int key : fragments.keySet()) {
+            if (fragments.get(key).equals(object)) {
+                position=key;
+            }
+        }
+        return position;
+    }
+
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
         fragments.put(position, fragment);
+
         return fragment;
     }
 
@@ -47,6 +73,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
+
         return fragments.size(); //2 fragments
     }
 

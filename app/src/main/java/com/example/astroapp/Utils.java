@@ -1,7 +1,14 @@
 package com.example.astroapp;
 
+import android.app.Activity;
+import android.content.Context;
 import android.icu.text.NumberFormat;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.widget.Toast;
+
+import java.io.File;
 
 public class Utils {
     public static String formatTime(int hour, int minute){
@@ -83,4 +90,23 @@ public class Utils {
         }
         return correct;
     }
+
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static boolean checkIfFileExists(Activity activity){
+        boolean exists=false;
+        String path = activity.getCacheDir().toString() + "/AstroWeatherApp/"+MainActivity.location+".json";
+        System.out.println("path w czekerze "+path);
+        File f = new File(path);
+        if (f.exists() && !f.isDirectory()) {
+            exists=true;
+        }
+        return exists;
+    }
+
+
 }

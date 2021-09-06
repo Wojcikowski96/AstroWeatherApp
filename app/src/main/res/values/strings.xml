@@ -1,13 +1,26 @@
 <resources>
-    <string name="app_name">AstroApp</string>
+    <string name="app_name">AstroWeatherApp</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="moon_picture">Moon picture</string>
     <string name="sun_picture">Sun picture</string>
-    <string name="input_coords">Wprowadź współrzędne</string>
+    <string name="input_coords">Wprowadź lokalizację</string>
     <string name="latitude">Szerokość geograficzna</string>
     <string name="longitude">Długość geograficzna</string>
     <string name="interval">Częstotliwość odświeżania</string>
+    <string name="obrazek_z_aktualnymi_warunkami_pogodowymi">obrazek z aktualnymi warunkami pogodowymi</string>
+    <string name="loading">b/d</string>
+    <string name="loading_description">loading description...</string>
+    <string name="wiatr">Wind</string>
+    <string name="powietrze">Air</string>
+    <string name="forecast">10-day forecast</string>
+    <string name="localization">Ulubione lokalizacje</string>
+    <string name="miasto">miasto</string>
+    <string name="deleteString">Usuń</string>
+    <string name="dodaj">Dodaj</string>
+    <string name="jednostki">Wybór jednostek miary</string>
+    <string name="stopnie">stopnie</string>
+    <string name="minuty">minuty</string>
 
     <string-array name="LatDirs">
         <item>N</item>
@@ -25,5 +38,13 @@
         <item>30s</item>
         <item>60s</item>
         <item>15min</item>
+    </string-array>
+
+    <string-array name="units">
+        <item>°C</item>
+        <item>°F</item>
+    </string-array>
+
+    <string-array name="cities">
     </string-array>
 </resources>

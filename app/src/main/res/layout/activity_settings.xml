@@ -1,43 +1,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/black">
+    android:background="@color/black"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
         android:layout_weight="0.3"
-        >
+        android:orientation="horizontal">
 
         <TextView
-
-            android:text="@string/input_coords"
-            app:autoSizeTextType="uniform"
-            android:layout_height="match_parent"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:textColor="@color/white"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="0.2"
-        >
-
-        <TextView
-            android:text="@string/latitude"
-            app:autoSizeTextType="uniform"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
             android:maxLines="1"
-            android:gravity="center"
-            android:textColor="@color/white"/>
+            android:text="@string/latitude"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
 
 
     </LinearLayout>
@@ -45,18 +26,18 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:layout_weight="1"
-        android:weightSum="3"
+        android:layout_weight="0.5"
         android:background="@color/white"
-        >
+        android:orientation="horizontal"
+        android:weightSum="3">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/LatDegreesWrapper"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:hint="stopnie"
+            android:hint="@string/stopnie"
+            app:hintTextAppearance="@style/TextLabel"
             android:textColorHint="@color/black">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -64,31 +45,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColor="@color/black"
-                />
+                android:layout_weight="1"
+                app:autoSizeTextType="uniform"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
 
-
         <com.google.android.material.textfield.TextInputLayout
-
-            app:autoSizeTextType="uniform"
+            android:id="@+id/LatMinutesWrapper"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:hint="minuty"
+            android:hint="@string/minuty"
             android:textColorHint="@color/black"
-            >
+            app:hintTextAppearance="@style/TextLabel"
+            app:autoSizeTextType="uniform">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/LatMinutes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColor="@color/black"
-                />
+                app:autoSizeTextType="uniform"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-
 
 
         <Spinner
@@ -97,25 +77,24 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@color/black"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="0.2"
-        >
+        android:layout_weight="0.3"
+        android:orientation="horizontal">
 
         <TextView
-            android:text="@string/longitude"
-            app:autoSizeTextType="uniform"
-            android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:maxLines="1"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:textColor="@color/white"/>
+            android:maxLines="1"
+            android:text="@string/longitude"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
 
 
     </LinearLayout>
@@ -123,52 +102,46 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:layout_weight="1"
-        android:weightSum="3"
+        android:layout_weight="0.5"
         android:background="@color/white"
-        >
+        android:orientation="horizontal"
+        android:weightSum="3">
 
         <com.google.android.material.textfield.TextInputLayout
-
-            app:autoSizeTextType="uniform"
+            android:id="@+id/LonDegreesWrapper"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:hint="stopnie"
+            android:hint="@string/stopnie"
             android:textColorHint="@color/black"
-            >
+            app:hintTextAppearance="@style/TextLabel"
+            app:autoSizeTextType="uniform">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/LonDegrees"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
-
         <com.google.android.material.textfield.TextInputLayout
-
-            app:autoSizeTextType="uniform"
+            android:id="@+id/LonMinutesWrapper"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:hint="minuty"
-            android:textColorHint="@color/black">
+            android:hint="@string/minuty"
+            android:textColorHint="@color/black"
+            app:hintTextAppearance="@style/TextLabel"
+            app:autoSizeTextType="uniform">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/LonMinutes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="@color/black"
-                />
+                android:textColor="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-
 
         <Spinner
             android:id="@+id/lonSpinner"
@@ -176,57 +149,156 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@color/black"
-            android:textColor="@color/black"/>
-
+            android:textColor="@color/black" />
 
     </LinearLayout>
 
     <LinearLayout
-    android:layout_width="fill_parent"
-    android:layout_height="0dp"
-    android:orientation="horizontal"
-    android:layout_weight="0.2"
-    >
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:orientation="horizontal">
 
-    <TextView
-        android:text="@string/interval"
-        app:autoSizeTextType="uniform"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:textColor="@color/white"
-        />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/interval"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
 
-</LinearLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.1"
+            android:layout_height="match_parent"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/jednostki"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="0.5"
         android:layout_gravity="center"
+        android:layout_weight="0.2"
         android:background="@color/white"
-        >
+        android:orientation="horizontal">
+
         <Spinner
             android:id="@+id/freqSpinner"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_gravity="center"
-            android:backgroundTint="@color/black"
-
+            android:layout_weight="1"
             />
-    </LinearLayout>
-        <Button
-            android:layout_width="match_parent"
-            android:backgroundTint="@color/black"
-            android:id="@+id/Submit"
-            android:layout_height="0dp"
-            android:background="@color/colorPrimaryDark"
-            app:autoSizeTextType="uniform"
-            android:text="Zatwierdź"
-            android:textColor="@color/white"
-            android:layout_weight="0.5"
-            app:strokeColor="@color/white"
-            app:strokeWidth="2dp"/>
+        <Spinner
+            android:id="@+id/unitSpinner"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            />
 
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/localization"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.5"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/miasto"
+            android:textColorHint="@color/black"
+            app:hintTextAppearance="@style/TextLabel"
+            app:autoSizeTextType="uniform">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/localizationInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/addCity"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:background="@color/black"
+            android:text="@string/dodaj"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform"
+            app:strokeWidth="2dp"
+            android:maxLines="1"/>
+
+        <Spinner
+            android:id="@+id/localizationListSpinner"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:backgroundTint="@color/black"
+            />
+
+        <Button
+            android:id="@+id/ClearList"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:background="@color/black"
+            android:text="@string/deleteString"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform"
+            app:strokeWidth="2dp"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/Submit"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:background="@color/colorPrimaryDark"
+        android:backgroundTint="@color/black"
+        android:text="Zatwierdź"
+        android:textColor="@color/white"
+        app:autoSizeTextType="uniform"
+        app:strokeColor="@color/white"
+        app:strokeWidth="2dp" />
 </LinearLayout>
