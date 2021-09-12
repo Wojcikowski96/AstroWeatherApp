@@ -13,12 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="Fragments.BasicWeatherData" />
-        <activity android:name="Fragments.AdditionalWeatherData" />
-        <activity android:name="Fragments.ForecastWeather" />
-        <activity android:name=".settings" />
-        <activity android:name="Fragments.Sun" />
-        <activity android:name="Fragments.Moon" />
+        <activity android:name="com.example.astroapp.Fragments.BasicWeatherData" />
+        <activity android:name="com.example.astroapp.Fragments.AdditionalWeatherData" />
+        <activity android:name="com.example.astroapp.Fragments.ForecastWeather" />
+        <activity android:name=".Settings.Settings" />
+        <activity android:name="com.example.astroapp.Fragments.Sun" />
+        <activity android:name="com.example.astroapp.Fragments.Moon" />
 
         <activity
             android:name=".MainActivity"

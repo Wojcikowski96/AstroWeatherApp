@@ -10,11 +10,11 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import java.util.HashMap;
 import java.util.Map;
 
-import Fragments.AdditionalWeatherData;
-import Fragments.BasicWeatherData;
-import Fragments.ForecastWeather;
-import Fragments.Moon;
-import Fragments.Sun;
+import com.example.astroapp.Fragments.AdditionalWeatherData;
+import com.example.astroapp.Fragments.BasicWeatherData;
+import com.example.astroapp.Fragments.ForecastWeather;
+import com.example.astroapp.Fragments.Moon;
+import com.example.astroapp.Fragments.Sun;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 

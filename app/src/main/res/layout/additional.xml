@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="Fragments.AdditionalWeatherData"
+    tools:context="com.example.astroapp.Fragments.AdditionalWeatherData"
     android:orientation="vertical"
     android:background="@color/black"
     android:tag="additional">
@@ -42,7 +42,7 @@
 
     <ImageView
         android:id="@+id/fogImage"
-        android:src="@drawable/fog"
+        android:src="@drawable/i50d"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center_horizontal"

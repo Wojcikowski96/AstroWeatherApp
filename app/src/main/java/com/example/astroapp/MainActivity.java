@@ -17,7 +17,10 @@ import android.widget.Toast;
 
 import com.example.astroapp.AstroCalculator.AstroCalculations;
 
-import LocationDatabase.DBHelper;
+import com.example.astroapp.Downloader.DownloadFile;
+import com.example.astroapp.LocationDatabase.DBHelper;
+import com.example.astroapp.Settings.Settings;
+import com.example.astroapp.Utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,13 +35,13 @@ public class MainActivity extends AppCompatActivity {
     String LonDeg = "19";
     String LonMin = "28";
     String LonD = "E";
-    public static String location="lodz";
+    public static String location="Łódź";
     public static int isCelsius = 0;
-    public static String interval = "2s";
+    public static String interval = "60s";
     public static TextView coordsWidgetTextViewV;
     public static boolean exists;
     public static DBHelper locations;
-    static ViewPagerAdapter viewPagerAdapter;
+    public static ViewPagerAdapter viewPagerAdapter;
     public static int orientation;
     public static int smallestScreenWidth;
     public static double[] calculatedCoords;
@@ -48,31 +51,19 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         System.out.println("Robię on create mainActivity");
-//        GetForecastWeather forecast = new GetForecastWeather();
-//
-//        String JSON = null;
-//        try {
-//            JSON = forecast.execute(location).get();
-//            System.out.println("JSON: "+JSON);
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            forecast.createJsonFile(JSON, location, this);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        DownloadFile.download("current",this, location);
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+
+        location = sharedPref.getString("selectedCityInSettings", "Łódź");
+        System.out.println("Lokacja przed pobraniem plików" + location);
+
+        DownloadFile.download("current",this, location, isCelsius);
+        DownloadFile.download("daily",this, location, isCelsius);
         orientation = getResources().getConfiguration().orientation;
         smallestScreenWidth = getResources().getConfiguration().smallestScreenWidthDp;
 
-        calculatedCoords = settings.convertFromNSEW(LatD, LatDeg, LatMin, LonD, LonDeg, LonMin);
+        calculatedCoords = Settings.convertFromNSEW(LatD, LatDeg, LatMin, LonD, LonDeg, LonMin);
 
-        int[] currTime = settings.getCurrentTime();
+        int[] currTime = Settings.getCurrentTime();
 
         stringsToBundleSun = AstroCalculations.astroCalculations(calculatedCoords, currTime, "sun");
         stringsToBundleMoon = AstroCalculations.astroCalculations(calculatedCoords, currTime, "moon");
@@ -108,20 +99,18 @@ public class MainActivity extends AppCompatActivity {
         }
         coordsWidgetTextViewV.setText(LatDeg + "°" + LatMin + "'" + LatD + "  " + LonDeg + "°" + LonMin + "'" + LonD);
 
-        if (settings.checkIfButton) {
-            location = settings.location.toLowerCase();
-            isCelsius = settings.isCelsius;
+        if (Settings.checkIfButton) {
+            location = Settings.location.toLowerCase();
+            isCelsius = Settings.isCelsius;
         }
 
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
 
-        String sharedLocation = sharedPref.getString("location", "lodz");
 
-        if (!sharedLocation.equals("")) {
-            location = sharedPref.getString("location", "lodz");
+        if (!location.equals("")) {
+            location = sharedPref.getString("location", "Łódź");
             System.out.println("Location z shared"+location);
             isCelsius = sharedPref.getInt("units", 0);
-            interval = sharedPref.getString("IntervalFromSettings", "2s");
+            interval = sharedPref.getString("IntervalFromSettings", "60s");
         }
 
         //DownloadFile.getWeatherInfo(location, isCelsius,this);
@@ -137,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Utwórz bazę danych
         locations = new DBHelper(this);
+        locations.getAll();
     }
 
     @Override
@@ -154,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_Settings) {
 
             openSettingsActivity();
             return true;
@@ -163,28 +153,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openSettingsActivity() {
-        Intent intent = new Intent(this, settings.class);
+        Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
     }
 
     @Override
     protected void onDestroy() {
         // TODO Auto-generated method stub
-        if (settings.handlers.size() > 0 && settings.runnables.size() > 0) { settings.handlers.get(settings.handlers.size() - 1).removeCallbacks(settings.runnables.get(settings.runnables.size() - 1));
+        if (Settings.handlers.size() > 0 && Settings.runnables.size() > 0) { Settings.handlers.get(Settings.handlers.size() - 1).removeCallbacks(Settings.runnables.get(Settings.runnables.size() - 1));
         }
         super.onDestroy();
     }
 
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (settings.checkIfButton) {
-            outState.putString("LatDeg", settings.LatDeg);
-            outState.putString("LatMin", settings.LatMin);
-            outState.putString("LatD", settings.LatD);
-            outState.putString("LonDeg", settings.LonDeg);
-            outState.putString("LonMin", settings.LonMin);
-            outState.putString("LonD", settings.LonD);
-            outState.putString("IntervalFromSettings", settings.interval);
+        if (Settings.checkIfButton) {
+            outState.putString("LatDeg", Settings.LatDeg);
+            outState.putString("LatMin", Settings.LatMin);
+            outState.putString("LatD", Settings.LatD);
+            outState.putString("LonDeg", Settings.LonDeg);
+            outState.putString("LonMin", Settings.LonMin);
+            outState.putString("LonD", Settings.LonD);
+            outState.putString("IntervalFromSettings", Settings.interval);
         } else {
             outState.putString("LatDeg", LatDeg);
             outState.putString("LatMin", LatMin);
@@ -199,14 +189,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Refresher.clearRefresherThread(settings.handlers, settings.runnables);
+        Refresher.clearRefresherThread(Settings.handlers, Settings.runnables);
 
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        if (settings.checkIfButton) {
-            editor.putString("location", settings.location);
-            editor.putInt("units", settings.isCelsius);
-            editor.putString("IntervalFromSettings", settings.interval);
+        if (Settings.checkIfButton) {
+            editor.putString("location", Settings.location);
+            editor.putInt("units", Settings.isCelsius);
+            editor.putString("IntervalFromSettings", Settings.interval);
             } else {
             editor.putString("location", location);
             editor.putInt("units", isCelsius);
@@ -217,12 +207,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        if (settings.checkIfButton) {
-            Refresher.clearRefresherThread(settings.handlers, settings.runnables);
-            Refresher.myRunnable(settings.handlers, settings.runnables, settings.interval, settings.calculatedCoords,this);
+        if (Settings.checkIfButton) {
+            Refresher.clearRefresherThread(Settings.handlers, Settings.runnables);
+            Refresher.myRunnable(Settings.handlers, Settings.runnables, Settings.interval, Settings.calculatedCoords,this);
         } else {
-            Refresher.clearRefresherThread(settings.handlers, settings.runnables);
-            Refresher.myRunnable(settings.handlers, settings.runnables, interval, calculatedCoords,this);
+            Refresher.clearRefresherThread(Settings.handlers, Settings.runnables);
+            Refresher.myRunnable(Settings.handlers, Settings.runnables, interval, calculatedCoords,this);
         }
 
         super.onResume();

@@ -1,4 +1,4 @@
-package com.example.astroapp;
+package com.example.astroapp.Settings;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -19,6 +19,9 @@ import android.widget.Toast;
 
 import com.example.astroapp.AstroCalculator.AstroCalculations;
 
+
+import org.jetbrains.annotations.Nullable;
+import org.json.JSONException;
 import org.json.simple.JSONObject;
 
 import java.math.BigDecimal;
@@ -28,26 +31,34 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutionException;
 
-import Fragments.AdditionalWeatherData;
-import Fragments.BasicWeatherData;
-import Fragments.ForecastWeather;
-import Fragments.Moon;
-import Fragments.Sun;
+import com.example.astroapp.Downloader.DownloadFile;
+import com.example.astroapp.Fragments.AdditionalWeatherData;
+import com.example.astroapp.Fragments.BasicWeatherData;
+import com.example.astroapp.Fragments.ForecastWeather;
+import com.example.astroapp.Fragments.Moon;
+import com.example.astroapp.Fragments.Sun;
+import com.example.astroapp.JSONReader;
+import com.example.astroapp.MainActivity;
+import com.example.astroapp.R;
+import com.example.astroapp.Refresher;
+import com.example.astroapp.Utils.AutocorrectCityInput;
+import com.example.astroapp.Utils.Utils;
 
-public class settings extends AppCompatActivity {
-   public EditText LatDegrees, LatMinutes, LonDegrees, LonMinutes;
-    public static String LatDeg ="51";
+public class Settings extends AppCompatActivity {
+    public EditText LatDegrees, LatMinutes, LonDegrees, LonMinutes;
+    public static String LatDeg = "51";
     public static String LatMin = "45";
     public static String LatD = "N";
     public static String LonDeg = "19";
     public static String LonMin = "28";
     public static String LonD = "E";
-    public static String location=MainActivity.location.toUpperCase();
+    public static String location = MainActivity.location.toUpperCase();
     Button Submit, ClearListButton, addCityButton;
     public static double[] calculatedCoords;
     int LatDSelection;
-    public static Spinner LatDir,LonDir, freqSpinner, citiesSpinner, units;
+    public static Spinner LatDir, LonDir, freqSpinner, citiesSpinner, units;
     int LonDSelection;
     int intervalSelection;
     public static List<Handler> handlers = new ArrayList<>();
@@ -55,12 +66,12 @@ public class settings extends AppCompatActivity {
     public static String[] sunStrings;
     public static String[] moonStrings;
     public static boolean checkIfButton = false;
-    public static String interval="60s";
+    public static String interval = "60s";
     public static EditText localizationInputEditText;
     public static ArrayList<String> cities;
     public static ArrayAdapter<String> citiesAdapter;
     public static int citiesSpinnerSelection;
-    public static int isCelsius=0;
+    public static int isCelsius = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,45 +79,45 @@ public class settings extends AppCompatActivity {
 
         setContentView(R.layout.activity_settings);
 
-        LatDegrees= (EditText) findViewById(R.id.LatDegrees);
-        LatMinutes= (EditText) findViewById(R.id.LatMinutes);
-        LonDegrees= (EditText) findViewById(R.id.LonDegrees);
-        LonMinutes= (EditText) findViewById(R.id.LonMinutes);
+        LatDegrees = (EditText) findViewById(R.id.LatDegrees);
+        LatMinutes = (EditText) findViewById(R.id.LatMinutes);
+        LonDegrees = (EditText) findViewById(R.id.LonDegrees);
+        LonMinutes = (EditText) findViewById(R.id.LonMinutes);
 
-        Submit= (Button) findViewById(R.id.Submit);
-        ClearListButton= (Button) findViewById(R.id.ClearList);
+        Submit = (Button) findViewById(R.id.Submit);
+        ClearListButton = (Button) findViewById(R.id.ClearList);
         addCityButton = (Button) findViewById(R.id.addCity);
-        localizationInputEditText= (EditText) findViewById(R.id.localizationInput);
+        localizationInputEditText = (EditText) findViewById(R.id.localizationInput);
 
         int spinnerItemStyle;
-        if (MainActivity.smallestScreenWidth >=600) {
+        if (MainActivity.smallestScreenWidth >= 600) {
             LatDegrees.setTextSize(50);
             LatMinutes.setTextSize(50);
             LonDegrees.setTextSize(50);
             LonMinutes.setTextSize(50);
             localizationInputEditText.setTextSize(50);
-            spinnerItemStyle=R.layout.spinner_item;
+            spinnerItemStyle = R.layout.spinner_item;
         } else {
-            spinnerItemStyle=android.R.layout.simple_spinner_dropdown_item;
+            spinnerItemStyle = android.R.layout.simple_spinner_dropdown_item;
         }
 
         LatDir = findViewById(R.id.latSpinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.LatDirs, spinnerItemStyle);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.LatDirs, spinnerItemStyle);
         adapter.setDropDownViewResource(spinnerItemStyle);
         LatDir.setAdapter(adapter);
 
         LonDir = findViewById(R.id.lonSpinner);
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,R.array.LonDirs, spinnerItemStyle);
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.LonDirs, spinnerItemStyle);
         adapter2.setDropDownViewResource(spinnerItemStyle);
         LonDir.setAdapter(adapter2);
 
         freqSpinner = findViewById(R.id.freqSpinner);
-        ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(this,R.array.updateIntervals, spinnerItemStyle);
+        ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(this, R.array.updateIntervals, spinnerItemStyle);
         adapter3.setDropDownViewResource(spinnerItemStyle);
         freqSpinner.setAdapter(adapter3);
 
         units = findViewById(R.id.unitSpinner);
-        ArrayAdapter<CharSequence> adapter4 = ArrayAdapter.createFromResource(this,R.array.units, spinnerItemStyle);
+        ArrayAdapter<CharSequence> adapter4 = ArrayAdapter.createFromResource(this, R.array.units, spinnerItemStyle);
         adapter4.setDropDownViewResource(spinnerItemStyle);
         units.setAdapter(adapter4);
 
@@ -122,17 +133,17 @@ public class settings extends AppCompatActivity {
         citiesSpinnerSelection = sharedPref.getInt("citiesSpinnerSelection", 0);
         interval = sharedPref.getString("interval", "lodz");
 
-        if(savedInstanceState != null){
-            LatDeg =savedInstanceState.getString("LatDeg");
-            LatMin=savedInstanceState.getString("LatMin");
-            LatD=savedInstanceState.getString("LatD");
+        if (savedInstanceState != null) {
+            LatDeg = savedInstanceState.getString("LatDeg");
+            LatMin = savedInstanceState.getString("LatMin");
+            LatD = savedInstanceState.getString("LatD");
 
-            LonDeg =savedInstanceState.getString("LonDeg");
-            LonMin =savedInstanceState.getString("LonMin");
-            LonD=savedInstanceState.getString("LonD");
+            LonDeg = savedInstanceState.getString("LonDeg");
+            LonMin = savedInstanceState.getString("LonMin");
+            LonD = savedInstanceState.getString("LonD");
 
-            interval=savedInstanceState.getString("Interval");
-            citiesSpinnerSelection=savedInstanceState.getInt("citiesSpinnerSelection");
+            interval = savedInstanceState.getString("Interval");
+            citiesSpinnerSelection = savedInstanceState.getInt("citiesSpinnerSelection");
             isCelsius = savedInstanceState.getInt("unitsSelection");
         }
 
@@ -140,21 +151,25 @@ public class settings extends AppCompatActivity {
         LatMinutes.setText(LatMin);
 
         if (LatD.equals("N")) {
-            LatDSelection=0;
-        } else {LatDSelection=1;}
+            LatDSelection = 0;
+        } else {
+            LatDSelection = 1;
+        }
 
         LatDir.setSelection(LatDSelection);
         LonDegrees.setText(LonDeg);
         LonMinutes.setText(LonMin);
 
         if (LonD.equals("E")) {
-            LonDSelection=0;
-        } else {LonDSelection=1;}
+            LonDSelection = 0;
+        } else {
+            LonDSelection = 1;
+        }
 
         LonDir.setSelection(LonDSelection);
 
         String[] items = getResources().getStringArray(R.array.updateIntervals);
-        intervalSelection=Arrays.asList(items).indexOf(interval);
+        intervalSelection = Arrays.asList(items).indexOf(interval);
 
         freqSpinner.setSelection(intervalSelection);
         citiesSpinner.setSelection(citiesSpinnerSelection);
@@ -164,33 +179,33 @@ public class settings extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                checkIfButton=true;
+                checkIfButton = true;
                 String[] coords = getTextFromSettings(LatDegrees, LatMinutes, LatDir, LonDegrees, LonMinutes, LonDir);
 
                 boolean checkIfError = Utils.checkForInputErrors(coords);
                 boolean checkForRange = true;
 
-                if(!checkIfError){
+                if (!checkIfError) {
                     Context c = getApplicationContext();
                     Toast.makeText(c, "Błędny typ danych", Toast.LENGTH_LONG).show();
-                }else{
+                } else {
                     checkForRange = Utils.checkForInputRange(coords);
                 }
 
-                if(!checkForRange){
+                if (!checkForRange) {
                     Context c = getApplicationContext();
                     Toast.makeText(c, "Zły zakres współrzędnych",
                             Toast.LENGTH_LONG).show();
 
                 }
-                if(checkIfError && checkForRange){
+                if (checkIfError && checkForRange) {
 
-                    calculatedCoords = convertFromNSEW(coords[2],coords[0],coords[1],coords[5],coords[3],coords[4]);
+                    calculatedCoords = convertFromNSEW(coords[2], coords[0], coords[1], coords[5], coords[3], coords[4]);
 
-                    int[] currTime=getCurrentTime();
+                    int[] currTime = getCurrentTime();
 
-                    sunStrings = AstroCalculations.astroCalculations(calculatedCoords, currTime,"sun");
-                    moonStrings = AstroCalculations.astroCalculations(calculatedCoords, currTime,"moon");
+                    sunStrings = AstroCalculations.astroCalculations(calculatedCoords, currTime, "sun");
+                    moonStrings = AstroCalculations.astroCalculations(calculatedCoords, currTime, "moon");
 
                     Sun sun = (Sun) MainActivity.viewPagerAdapter.getItem(3);
                     sun.update(sunStrings);
@@ -198,34 +213,41 @@ public class settings extends AppCompatActivity {
                     Moon moon = (Moon) MainActivity.viewPagerAdapter.getItem(4);
                     moon.update(moonStrings);
 
-                    Refresher.clearRefresherThread(handlers,runnables);
+                    Refresher.clearRefresherThread(handlers, runnables);
 
                     interval = freqSpinner.getSelectedItem().toString();
                     intervalSelection = freqSpinner.getSelectedItemPosition();
                     location = citiesSpinner.getSelectedItem().toString();
                     isCelsius = units.getSelectedItemPosition();
-                    interval=freqSpinner.getSelectedItem().toString();
+                    interval = freqSpinner.getSelectedItem().toString();
 
-                    Refresher.myRunnable(handlers, runnables, interval, calculatedCoords,settings.this);
-                    MainActivity.coordsWidgetTextViewV.setText(LatDeg+"°"+LatMin+"'"+LatD+"  "+ LonDeg+"°"+LonMin+"'"+LonD);
-
-                   // DownloadFile.getWeatherInfo(location, isCelsius,settings.this);
-                    DownloadFile.download("current",settings.this, location);
+                    Refresher.myRunnable(handlers, runnables, interval, calculatedCoords, Settings.this);
+                    MainActivity.coordsWidgetTextViewV.setText(LatDeg + "°" + LatMin + "'" + LatD + "  " + LonDeg + "°" + LonMin + "'" + LonD);
+                    
+                    DownloadFile.download("current", Settings.this, location, isCelsius);
+                    DownloadFile.download("daily", Settings.this, location, isCelsius);
 
 //                    BasicWeatherData basic = (BasicWeatherData)  MainActivity.viewPagerAdapter.getItem(0);
 //                    basic.updateBasicFragment(citiesSpinner.getSelectedItem().toString().toLowerCase(), isCelsius, settings.this);
 
-                    BasicWeatherData basic = (BasicWeatherData)  MainActivity.viewPagerAdapter.getItem(0);
-                    Map<String, Object> weatherDataBasic = basic.getDataFromJson(citiesSpinner.getSelectedItem().toString().toLowerCase(), isCelsius, settings.this);
-                    basic.updateCurrentFragment(weatherDataBasic, settings.this);
+                    BasicWeatherData basic = (BasicWeatherData) MainActivity.viewPagerAdapter.getItem(0);
+                    Map<String, Object> weatherDataBasic = null;
+                    try {
+                        weatherDataBasic = basic.getDataFromJson(citiesSpinner.getSelectedItem().toString(), isCelsius, Settings.this);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("Location w settings" + location);
+                    basic.updateCurrentFragment(weatherDataBasic, Settings.this, location);
 
-                    AdditionalWeatherData additional = (AdditionalWeatherData)  MainActivity.viewPagerAdapter.getItem(1);
-                    Map<String, Object> weatherDataAdditional = additional.getDataFromJson(citiesSpinner.getSelectedItem().toString().toLowerCase(), isCelsius, settings.this);
-                    additional.updateCurrentFragment(weatherDataAdditional, settings.this);
+                    AdditionalWeatherData additional = (AdditionalWeatherData) MainActivity.viewPagerAdapter.getItem(1);
+                    Map<String, Object> weatherDataAdditional = additional.getDataFromJson(citiesSpinner.getSelectedItem().toString(), isCelsius, Settings.this);
+                    additional.updateCurrentFragment(weatherDataAdditional, Settings.this, location);
 
-                    ForecastWeather forecast = (ForecastWeather)  MainActivity.viewPagerAdapter.getItem(2);
-                    forecast.updateForecastFragment(citiesSpinner.getSelectedItem().toString().toLowerCase(), isCelsius, settings.this);
-                }}
+                    ForecastWeather forecast = (ForecastWeather) MainActivity.viewPagerAdapter.getItem(2);
+                    forecast.updateForecastFragment(citiesSpinner.getSelectedItem().toString().toLowerCase(), isCelsius, Settings.this);
+                }
+            }
 
 
         });
@@ -237,36 +259,52 @@ public class settings extends AppCompatActivity {
                 MainActivity.locations.deleteAllRecords();
                 citiesAdapter.clear();
                 citiesAdapter.notifyDataSetChanged();
-        }});
+            }
+        });
 
         addCityButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
 
-                String location = localizationInputEditText.getText().toString().toLowerCase();
+                String locationInput = localizationInputEditText.getText().toString();
 
-                if(!MainActivity.locations.checkIfRecordExists(location)) {
-                   // DownloadFile.getWeatherInfo(location, isCelsius,settings.this);
-                    DownloadFile.download("current",settings.this, location);
-                    JSONObject jsonObject = JSONReader.JSONReadAndParse(settings.this, location);
+                    System.out.println("Lokacja przed spr: "+location);
+                    System.out.println("Lokacja w inpucie: "+locationInput);
+                    String correctedLocation = getCorrectedLocationInput(locationInput);
 
-                    if(jsonObject==null){
-                        Toast.makeText(settings.this, "Aeris nie ma takiego miasta", Toast.LENGTH_LONG).show();
+                    if (!MainActivity.locations.checkIfRecordExists(correctedLocation)) {
+                    System.out.println("Poprawiona lokacja "+correctedLocation);
+                    DownloadFile.download("current", Settings.this, correctedLocation, isCelsius);
+                    // DownloadFile.getWeatherInfo(location, isCelsius,settings.this);
+                    JSONObject jsonObject = JSONReader.JSONReadAndParse(Settings.this, correctedLocation, "Current");
 
-                    }else{
-                        Double longitude = (Double) ((JSONObject) ((JSONObject) jsonObject.get("response")).get("loc")).get("long");
-                        Double latitude = (Double) ((JSONObject) ((JSONObject) jsonObject.get("response")).get("loc")).get("lat");;
-                        //Long woeid = (Long) ((JSONObject) jsonObject.get("location")).get("woeid");
 
-                        MainActivity.locations.insert(location, null, longitude, latitude);
-                        citiesAdapter.add(location);
+
+                    if (jsonObject.get("message") !=null && jsonObject.get("message").equals("city not found")) {
+                        Toast.makeText(Settings.this, "Aeris nie ma takiego miasta", Toast.LENGTH_LONG).show();
+
+                    } else {
+                        Toast.makeText(Settings.this, "Pomyślnie dodano miasto: "+correctedLocation, Toast.LENGTH_LONG).show();
+                        Double longitude = null;
+
+                        longitude = (Double) (((JSONObject) jsonObject.get("coord")).get("lon"));
+
+                        Double latitude = null;
+
+                        latitude = (Double) (((JSONObject) jsonObject.get("coord")).get("lat"));
+
+                        Long woeid = (Long) jsonObject.get("id");
+
+                        MainActivity.locations.insert(correctedLocation, woeid, longitude, latitude);
+                        citiesAdapter.add(correctedLocation);
                         citiesAdapter.notifyDataSetChanged();
                     }
                 } else {
-                    Toast.makeText(settings.this, "Takie miasto już jest w bazie, wybierz je z listy", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Settings.this, "Takie miasto już jest w bazie, wybierz je z listy", Toast.LENGTH_LONG).show();
                 }
-            }}) ;
+            }
+        });
 
         citiesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -277,8 +315,8 @@ public class settings extends AppCompatActivity {
                 citiesSpinnerSelection = citiesSpinner.getSelectedItemPosition();
                 localizationInputEditText.setText(location);
 
-                String latitudeFloat = MainActivity.locations.getData(location,"Latitude");
-                String longitudeFloat = MainActivity.locations.getData(location,"Longitude");
+                String latitudeFloat = MainActivity.locations.getData(location, "Latitude");
+                String longitudeFloat = MainActivity.locations.getData(location, "Longitude");
 
                 convertToNSEW(latitudeFloat, longitudeFloat);
 
@@ -311,8 +349,9 @@ public class settings extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-                LonD=LonDir.getSelectedItem().toString();
+                LonD = LonDir.getSelectedItem().toString();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 // your code here
@@ -323,8 +362,9 @@ public class settings extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-                LatD=LatDir.getSelectedItem().toString();
+                LatD = LatDir.getSelectedItem().toString();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 // your code here
@@ -335,8 +375,9 @@ public class settings extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-                interval=freqSpinner.getSelectedItem().toString();
+                interval = freqSpinner.getSelectedItem().toString();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 // your code here
@@ -344,20 +385,34 @@ public class settings extends AppCompatActivity {
         });
     }
 
-    public static String []  getTextFromSettings(EditText LatDegrees, EditText LatMinutes, Spinner LatDir, EditText LonDegrees, EditText LonMinutes, Spinner LonDir){
-        String [] coords = new String[6];
+    @Nullable
+    private String getCorrectedLocationInput(String locationInput) {
+        AutocorrectCityInput correct = new AutocorrectCityInput();
+        String correctedLocation = null;
+        try {
+            correctedLocation = correct.execute(locationInput).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return correctedLocation;
+    }
 
-        LatDeg=LatDegrees.getText().toString();
+    public static String[] getTextFromSettings(EditText LatDegrees, EditText LatMinutes, Spinner LatDir, EditText LonDegrees, EditText LonMinutes, Spinner LonDir) {
+        String[] coords = new String[6];
+
+        LatDeg = LatDegrees.getText().toString();
         coords[0] = LatDeg;
-        LatMin=LatMinutes.getText().toString();
+        LatMin = LatMinutes.getText().toString();
         coords[1] = LatMin;
-        LatD=LatDir.getSelectedItem().toString();
+        LatD = LatDir.getSelectedItem().toString();
         coords[2] = LatD;
-        LonDeg=LonDegrees.getText().toString();
+        LonDeg = LonDegrees.getText().toString();
         coords[3] = LonDeg;
-        LonMin=LonMinutes.getText().toString();
+        LonMin = LonMinutes.getText().toString();
         coords[4] = LonMin;
-        LonD=LonDir.getSelectedItem().toString();
+        LonD = LonDir.getSelectedItem().toString();
         coords[5] = LonD;
 
         return coords;
@@ -365,18 +420,18 @@ public class settings extends AppCompatActivity {
 
     public static double[] convertFromNSEW(String LatD, String LatDeg, String LatMin, String LonD, String LonDeg, String LonMin) {
         double[] calculatedCoords = new double[2];
-        if(LatD.equals("N")){
-            calculatedCoords[0] = Double.parseDouble(LatDeg)+Double.parseDouble(LatMin)/60;
-        }else {
-            calculatedCoords[0] = -(Double.parseDouble(LatDeg)+Double.parseDouble(LatMin)/60);
+        if (LatD.equals("N")) {
+            calculatedCoords[0] = Double.parseDouble(LatDeg) + Double.parseDouble(LatMin) / 60;
+        } else {
+            calculatedCoords[0] = -(Double.parseDouble(LatDeg) + Double.parseDouble(LatMin) / 60);
         }
 
-        if(LonD.equals("E")){
-            calculatedCoords[1] = Double.parseDouble(LonDeg)+Double.parseDouble(LonMin)/60;
-        }else {
-            calculatedCoords[1] = -(Double.parseDouble(LonDeg)+Double.parseDouble(LonMin)/60);
+        if (LonD.equals("E")) {
+            calculatedCoords[1] = Double.parseDouble(LonDeg) + Double.parseDouble(LonMin) / 60;
+        } else {
+            calculatedCoords[1] = -(Double.parseDouble(LonDeg) + Double.parseDouble(LonMin) / 60);
         }
-        return  calculatedCoords;
+        return calculatedCoords;
     }
 
     public static void convertToNSEW(String latitudeFloat, String longitudeFloat) {
@@ -385,13 +440,13 @@ public class settings extends AppCompatActivity {
         double doubleNumber = Double.parseDouble(latitudeFloat);
         BigDecimal bigDecimal = new BigDecimal(String.valueOf(doubleNumber));
         int intValue = bigDecimal.intValue();
-        if(intValue < 0) {
-             latDec = (Double.valueOf(intValue))*-1;
-             LatDir.setSelection(1);
+        if (intValue < 0) {
+            latDec = (Double.valueOf(intValue)) * -1;
+            LatDir.setSelection(1);
 
-        }else{
-             latDec = Double.valueOf(intValue);
-             LatDir.setSelection(0);
+        } else {
+            latDec = Double.valueOf(intValue);
+            LatDir.setSelection(0);
         }
 
         Double latUlamek = Double.parseDouble(bigDecimal.subtract(new BigDecimal(intValue)).toPlainString());
@@ -400,32 +455,32 @@ public class settings extends AppCompatActivity {
         BigDecimal bigDecimal2 = new BigDecimal(String.valueOf(doubleNumber2));
         int intValue2 = bigDecimal2.intValue();
 
-        if(intValue2 < 0){
-            lonDec = (Double.valueOf(intValue2)) *-1;
+        if (intValue2 < 0) {
+            lonDec = (Double.valueOf(intValue2)) * -1;
             LonDir.setSelection(1);
-        }else{
+        } else {
             lonDec = Double.valueOf(intValue2);
             LonDir.setSelection(0);
         }
 
         Double lonUlamek = Double.parseDouble(bigDecimal2.subtract(new BigDecimal(intValue2)).toPlainString());
 
-        Double latMin = (60*(latUlamek));
+        Double latMin = (60 * (latUlamek));
 
-        if(latMin < 0){
-            latMin = (60*(latUlamek))*-1;
+        if (latMin < 0) {
+            latMin = (60 * (latUlamek)) * -1;
         }
 
-        Double lonMin = (60*(lonUlamek));
+        Double lonMin = (60 * (lonUlamek));
 
-        if(lonMin < 0){
-            lonMin = (60*(lonUlamek))*-1;
+        if (lonMin < 0) {
+            lonMin = (60 * (lonUlamek)) * -1;
         }
 
-        LatDeg = Integer.toString((int)Math.round(latDec));
-        LatMin = Integer.toString((int)Math.round(latMin));
-        LonDeg = Integer.toString((int)Math.round(lonDec));
-        LonMin = Integer.toString((int)Math.round(lonMin));
+        LatDeg = Integer.toString((int) Math.round(latDec));
+        LatMin = Integer.toString((int) Math.round(latMin));
+        LonDeg = Integer.toString((int) Math.round(lonDec));
+        LonMin = Integer.toString((int) Math.round(lonMin));
     }
 
     public static int[] getCurrentTime() {
@@ -444,15 +499,16 @@ public class settings extends AppCompatActivity {
 
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("LatDeg",LatDeg);
-        outState.putString("LatMin",LatMin);
-        outState.putString("LatD",LatD);
-        outState.putString("LonDeg",LonDeg);
-        outState.putString("LonMin",LonMin);
-        outState.putString("LonD",LonD);
-        outState.putString("Interval",interval);
-        outState.putInt("citiesSpinnerSelection",citiesSpinnerSelection);
-        outState.putInt("unitsSelection",isCelsius);
+        outState.putString("LatDeg", LatDeg);
+        outState.putString("LatMin", LatMin);
+        outState.putString("LatD", LatD);
+        outState.putString("LonDeg", LonDeg);
+        outState.putString("LonMin", LonMin);
+        outState.putString("LonD", LonD);
+        outState.putString("Interval", interval);
+        outState.putInt("citiesSpinnerSelection", citiesSpinnerSelection);
+        outState.putString("selectedCityInSettings", citiesSpinner.getSelectedItem().toString());
+        outState.putInt("unitsSelection", isCelsius);
     }
 
     @Override
@@ -462,7 +518,8 @@ public class settings extends AppCompatActivity {
         System.out.println("Niszczę settings activity");
     }
 
-    @Override protected void onPause() {
+    @Override
+    protected void onPause() {
         super.onPause();
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -472,7 +529,8 @@ public class settings extends AppCompatActivity {
         editor.apply();
     }
 
-    @Override protected void onStop() {
+    @Override
+    protected void onStop() {
         super.onStop();
         System.out.println("Stopuję settings activity");
     }

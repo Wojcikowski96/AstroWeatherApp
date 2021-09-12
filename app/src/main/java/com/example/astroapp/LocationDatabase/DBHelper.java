@@ -1,4 +1,4 @@
-package LocationDatabase;
+package com.example.astroapp.LocationDatabase;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -75,6 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
             res.moveToNext();
         }
         res.close();
+        System.out.println("Lista miast w bazie"+array_list);
         return array_list;
     }
 
@@ -98,6 +99,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean checkIfRecordExists(String name) {
 
         SQLiteDatabase db = this.getReadableDatabase();
+        String allcities = "select * from FavCities where Name=?";
         String query="select * from FavCities where Name=?";
         Cursor res = db.rawQuery( query, new String[] { name } );
         int queryResultCount=res.getCount();

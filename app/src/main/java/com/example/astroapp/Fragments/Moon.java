@@ -1,4 +1,4 @@
-package Fragments;
+package com.example.astroapp.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

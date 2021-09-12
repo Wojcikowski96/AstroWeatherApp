@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="Fragments.Moon"
+    tools:context="com.example.astroapp.Fragments.Moon"
     android:weightSum="12"
     android:background="@color/black"
     android:tag="moon"

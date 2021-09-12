@@ -1,12 +1,12 @@
-package com.example.astroapp;
+package com.example.astroapp.Utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.icu.text.NumberFormat;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.widget.Toast;
+
+import com.example.astroapp.MainActivity;
 
 import java.io.File;
 
@@ -99,7 +99,7 @@ public class Utils {
 
     public static boolean checkIfFileExists(Activity activity){
         boolean exists=false;
-        String path = activity.getCacheDir().toString() + "/AstroWeatherApp/"+MainActivity.location+".json";
+        String path = activity.getCacheDir().toString() + "/AstroWeatherApp/"+ MainActivity.location+".json";
         System.out.println("path w czekerze "+path);
         File f = new File(path);
         if (f.exists() && !f.isDirectory()) {
@@ -107,6 +107,7 @@ public class Utils {
         }
         return exists;
     }
+
 
 
 }

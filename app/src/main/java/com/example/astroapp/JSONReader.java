@@ -18,14 +18,18 @@ import java.io.IOException;
 
 public class JSONReader {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static JSONObject JSONReadAndParse(Activity activity, String location) {
+    public static JSONObject JSONReadAndParse(Activity activity, String location, String filetype) {
         JSONObject jsonObject = null;
         JSONParser jsonParser = new JSONParser();
+        String filenamePart = null;
 
 
-            System.out.println("Wchodzę");
-            System.out.println("Lokacja w json readerze"+location);
-            try (FileReader reader = new FileReader(activity.getCacheDir().toString() + "/AstroWeatherApp/"+location+"CurrentForecast.json")) {
+        System.out.println("Wchodzę");
+        System.out.println("Lokacja w json readerze" + location);
+
+        if (filetype == "Current") {
+            filenamePart = "Current";
+            try (FileReader reader = new FileReader(activity.getCacheDir().toString() + "/AstroWeatherApp/" + location +  filenamePart + "Forecast.json")) {
                 jsonObject = (JSONObject) jsonParser.parse(reader);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -34,6 +38,19 @@ public class JSONReader {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+        }
+        if (filetype == "Daily") {
+            filenamePart = "Daily";
+            try (FileReader reader = new FileReader(activity.getCacheDir().toString() + "/AstroWeatherApp/" + location  + filenamePart + "Forecast.json")) {
+                jsonObject = (JSONObject) jsonParser.parse(reader);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
 
         return jsonObject;
     }

@@ -1,4 +1,4 @@
-package Interfaces;
+package com.example.astroapp.Interfaces;
 
 import android.app.Activity;
 
@@ -8,6 +8,6 @@ import java.io.IOException;
 
 public interface WeatherService{
     void createJsonFile(String jsonContent, String location, Activity activity) throws JSONException, IOException;
-    String getRequest(String[] location) throws IOException;
+    String getRequest(String[] params) throws IOException;
 
 }

@@ -1,4 +1,5 @@
-package Forecasts;
+package com.example.astroapp.Forecasts;
+
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -14,12 +15,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import Interfaces.WeatherService;
+import com.example.astroapp.Interfaces.WeatherService;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class GetForecastWeather extends AsyncTask<String, String, String> implements WeatherService {
+public class GetForecastWeatherDaily extends AsyncTask<String, String, String> implements WeatherService {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected String doInBackground(String... strings) {
@@ -35,7 +36,7 @@ public class GetForecastWeather extends AsyncTask<String, String, String> implem
     @Override
     public void createJsonFile(String jsonContent, String location, Activity activity) throws JSONException, IOException {
         JSONObject object = new JSONObject(jsonContent);
-        String filename = location+"CurrentForecast.json";
+        String filename = location+"DailyForecast.json";
         String dirName = activity.getCacheDir().toString() + "/AstroWeatherApp/";
         System.out.println("Sciezka pliku: "+activity.getCacheDir().toString() + "/AstroWeatherApp/");
         File dir = new File (dirName);
@@ -47,13 +48,13 @@ public class GetForecastWeather extends AsyncTask<String, String, String> implem
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public String getRequest(String[] location) throws IOException {
+    public String getRequest(String[] params) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url("https://aerisweather1.p.rapidapi.com/observations/"+location[0]+",")
+                .url("https://community-open-weather-map.p.rapidapi.com/forecast/daily?q="+ params[0]+"&lat=0&lon=0&lang=null&units="+params[1])
                 .get()
-                .addHeader("x-rapidapi-host", "aerisweather1.p.rapidapi.com")
+                .addHeader("x-rapidapi-host", "community-open-weather-map.p.rapidapi.com")
                 .addHeader("x-rapidapi-key", "fa1edb6aeemshdbfbc48fbeef1aap11530djsn3acd3fde15cb")
                 .build();
 
@@ -64,3 +65,4 @@ public class GetForecastWeather extends AsyncTask<String, String, String> implem
     }
 
 }
+
