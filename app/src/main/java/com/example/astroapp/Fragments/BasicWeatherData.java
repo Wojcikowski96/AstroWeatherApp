@@ -85,62 +85,62 @@ public class BasicWeatherData extends Fragment implements FragmentInterface {
     @Override
     public Map<String, Object> getDataFromJson(String location, int isCelsius, Activity activity) throws JSONException {
         Map<String, Object> weatherInfoFromJson = new HashMap<String, Object>();
-//        JSONObject jsonObject = JSONReader.JSONReadAndParse(activity,location, "Current");
-//        System.out.println("JsonObject w basic "+jsonObject);
-//        String tempUnit;
-//        String pressureUnit;
-//        isCelsiusGlobal=isCelsius;
-//
-//        if(jsonObject!=null) {
-//            //city = (String) ((JSONObject) ((JSONObject) jsonObject.get("response")).get("profile")).get("tz");
-//           // description = "ads";
-//            //weatherPictureName = "ads";
-//            if(isCelsius == 0){
-//                tempUnit = " °C";
-//                pressureUnit = " Hpa";
-//            }else{
-//                tempUnit = " °F";
-//                pressureUnit = " Hg";
-//            }
-//            JSONArray weather= (JSONArray) jsonObject.get("weather");
-//            JSONObject oneWeather =(JSONObject) weather.get(0);
-//
-//
-//            city = (String) jsonObject.get("name");
-//            weatherPictureName = (String) oneWeather.get("icon");
-//            description = (String) oneWeather.get("description");
-//            pressure = (((JSONObject) jsonObject.get("main")).get("pressure")).toString() + pressureUnit;
-//            temperature = (((JSONObject) jsonObject.get("main")).get("temp")).toString() + tempUnit;
-//
-//            weatherInfoFromJson.put("City", city);
-//            weatherInfoFromJson.put("Description", description);
-//            weatherInfoFromJson.put("Pressure", pressure);
-//            weatherInfoFromJson.put("Temperature", temperature);
-//            weatherInfoFromJson.put("Picture Name", weatherPictureName);
-//
-//            System.out.println("Mapa z danymi o pogodzie"+ weatherInfoFromJson);
-//        }else{
-//            System.out.println("No JSON found");
-//        }
+        JSONObject jsonObject = JSONReader.JSONReadAndParse(activity,location, "Current");
+        System.out.println("JsonObject w basic "+jsonObject);
+        String tempUnit;
+        String pressureUnit;
+        isCelsiusGlobal=isCelsius;
+
+        if(jsonObject!=null) {
+            //city = (String) ((JSONObject) ((JSONObject) jsonObject.get("response")).get("profile")).get("tz");
+           // description = "ads";
+            //weatherPictureName = "ads";
+            if(isCelsius == 0){
+                tempUnit = " °C";
+                pressureUnit = " Hpa";
+            }else{
+                tempUnit = " °F";
+                pressureUnit = " Hg";
+            }
+            JSONArray weather= (JSONArray) jsonObject.get("weather");
+            JSONObject oneWeather =(JSONObject) weather.get(0);
+
+
+            city = (String) jsonObject.get("name");
+            weatherPictureName = (String) oneWeather.get("icon");
+            description = (String) oneWeather.get("description");
+            pressure = (((JSONObject) jsonObject.get("main")).get("pressure")).toString() + pressureUnit;
+            temperature = (((JSONObject) jsonObject.get("main")).get("temp")).toString() + tempUnit;
+
+            weatherInfoFromJson.put("City", city);
+            weatherInfoFromJson.put("Description", description);
+            weatherInfoFromJson.put("Pressure", pressure);
+            weatherInfoFromJson.put("Temperature", temperature);
+            weatherInfoFromJson.put("Picture Name", weatherPictureName);
+
+            System.out.println("Mapa z danymi o pogodzie"+ weatherInfoFromJson);
+        }else{
+            System.out.println("No JSON found");
+        }
         return weatherInfoFromJson;
     }
 
     @Override
     public void updateCurrentFragment(Map<String, Object> jsonData, Activity activity, String location) {
-//        cityTextView.setText(location);
-//        descriptionTextView.setText(jsonData.get("Description").toString());
-//        pressureTextView.setText(jsonData.get("Pressure").toString());
-//        temperatureTextView.setText(jsonData.get("Temperature").toString());
-//
-//        String fullPictureName =  jsonData.get("Picture Name").toString();
-//        String[] splitedImageName = fullPictureName.split("[.]");
-//        String imagenameNoExtension = splitedImageName[0];
-//        System.out.println("Nazwa obrazka: "+"i"+imagenameNoExtension);
-//
-//        icon = activity.getResources().getIdentifier("i"+imagenameNoExtension, "drawable",
-//                activity.getPackageName());
-//        System.out.println("Kod obrazka: "+icon);
-//
-//        weatherPictureImageView.setImageResource(icon);
+        cityTextView.setText(location);
+        descriptionTextView.setText(jsonData.get("Description").toString());
+        pressureTextView.setText(jsonData.get("Pressure").toString());
+        temperatureTextView.setText(jsonData.get("Temperature").toString());
+
+        String fullPictureName =  jsonData.get("Picture Name").toString();
+        String[] splitedImageName = fullPictureName.split("[.]");
+        String imagenameNoExtension = splitedImageName[0];
+        System.out.println("Nazwa obrazka: "+"i"+imagenameNoExtension);
+
+        icon = activity.getResources().getIdentifier("i"+imagenameNoExtension, "drawable",
+                activity.getPackageName());
+        System.out.println("Kod obrazka: "+icon);
+
+        weatherPictureImageView.setImageResource(icon);
     }
 }

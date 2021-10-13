@@ -1,5 +1,6 @@
 package com.example.astroapp;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Handler;
@@ -12,7 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.astroapp.Downloader.DownloadFile;
+import com.example.astroapp.Fragments.AdditionalWeatherData;
 import com.example.astroapp.Fragments.BasicWeatherData;
+import com.example.astroapp.Fragments.ForecastWeather;
 import com.example.astroapp.Fragments.Moon;
 import com.example.astroapp.Fragments.Sun;
 import com.example.astroapp.Settings.Settings;
@@ -49,6 +52,7 @@ public class Refresher {
 
         Runnable runnable = new Runnable() {
 
+            @SuppressLint("NewApi")
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void run() {
@@ -66,6 +70,7 @@ public class Refresher {
                 }
 
                 DownloadFile.download("current", activity, location, isCelsius);
+                DownloadFile.download("daily", activity, location, isCelsius);
 
                 BasicWeatherData basic = (BasicWeatherData) MainActivity.viewPagerAdapter.getItem(0);
                 Map<String, Object> weatherData = null;
@@ -75,6 +80,21 @@ public class Refresher {
                     e.printStackTrace();
                 }
                 basic.updateCurrentFragment(weatherData, activity, location);
+
+                AdditionalWeatherData additional = (AdditionalWeatherData) MainActivity.viewPagerAdapter.getItem(1);
+                Map<String, Object> weatherData2 = null;
+                weatherData2 = additional.getDataFromJson(location, isCelsius, activity);
+                additional.updateCurrentFragment(weatherData2, activity, location);
+
+                ForecastWeather forecast = (ForecastWeather) MainActivity.viewPagerAdapter.getItem(2);
+                Map<String, Object> weatherData3 = null;
+                try {
+                    weatherData3 = forecast.getDataFromJson(location, isCelsius, activity);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                forecast.updateCurrentFragment(weatherData3, activity, location);
+
 
 //                AdditionalWeatherData additional = (AdditionalWeatherData)  MainActivity.viewPagerAdapter.getItem(1);
 //                additional.updateAdditionalFragment(location, isCelsius, activity);

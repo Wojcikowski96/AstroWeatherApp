@@ -96,10 +96,6 @@ public class ForecastWeather extends Fragment implements FragmentInterface {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void updateForecastFragment(String location, int isCelsius, Activity activity) {
-
-    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -132,7 +128,7 @@ public class ForecastWeather extends Fragment implements FragmentInterface {
                 description = (String)((JSONObject) weatherItem.get(0)).get("main");
                 icon = (String)((JSONObject) weatherItem.get(0)).get("icon");
                 JSONObject temperatureObject = (JSONObject) ((JSONObject)list.get(i)).get("temp");
-
+                System.out.println("Is celcius w daily:" + isCelsius);
                 if (isCelsius == 0) {
                     temperatureUnit = "°C";
                     temperatureDay =  temperatureObject.get("day").toString() + temperatureUnit;

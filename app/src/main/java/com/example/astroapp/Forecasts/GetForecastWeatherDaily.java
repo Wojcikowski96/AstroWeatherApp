@@ -50,7 +50,7 @@ public class GetForecastWeatherDaily extends AsyncTask<String, String, String> i
     @Override
     public String getRequest(String[] params) throws IOException {
         OkHttpClient client = new OkHttpClient();
-
+        System.out.println("Ilośc dni: "+ params[0] +" "+ "Typ jednstki: "+ params[1] + " W prognozie 10 dni");
         Request request = new Request.Builder()
                 .url("https://community-open-weather-map.p.rapidapi.com/forecast/daily?q="+ params[0]+"&lat=0&lon=0&lang=null&units="+params[1])
                 .get()

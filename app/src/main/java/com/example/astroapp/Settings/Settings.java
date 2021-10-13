@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -131,7 +132,7 @@ public class Settings extends AppCompatActivity {
 
         isCelsius = sharedPref.getInt("units", 0);
         citiesSpinnerSelection = sharedPref.getInt("citiesSpinnerSelection", 0);
-        interval = sharedPref.getString("interval", "lodz");
+        interval = sharedPref.getString("interval", "60s");
 
         if (savedInstanceState != null) {
             LatDeg = savedInstanceState.getString("LatDeg");
@@ -176,6 +177,7 @@ public class Settings extends AppCompatActivity {
         units.setSelection(isCelsius);
 
         Submit.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
@@ -227,9 +229,6 @@ public class Settings extends AppCompatActivity {
                     DownloadFile.download("current", Settings.this, location, isCelsius);
                     DownloadFile.download("daily", Settings.this, location, isCelsius);
 
-//                    BasicWeatherData basic = (BasicWeatherData)  MainActivity.viewPagerAdapter.getItem(0);
-//                    basic.updateBasicFragment(citiesSpinner.getSelectedItem().toString().toLowerCase(), isCelsius, settings.this);
-
                     BasicWeatherData basic = (BasicWeatherData) MainActivity.viewPagerAdapter.getItem(0);
                     Map<String, Object> weatherDataBasic = null;
                     try {
@@ -245,7 +244,8 @@ public class Settings extends AppCompatActivity {
                     additional.updateCurrentFragment(weatherDataAdditional, Settings.this, location);
 
                     ForecastWeather forecast = (ForecastWeather) MainActivity.viewPagerAdapter.getItem(2);
-                    forecast.updateForecastFragment(citiesSpinner.getSelectedItem().toString().toLowerCase(), isCelsius, Settings.this);
+                    Map<String, Object> weatherDataForecast = additional.getDataFromJson(citiesSpinner.getSelectedItem().toString(), isCelsius, Settings.this);
+                    forecast.updateCurrentFragment(weatherDataForecast,Settings.this, location);
                 }
             }
 

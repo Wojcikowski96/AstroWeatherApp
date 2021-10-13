@@ -61,6 +61,7 @@ public class DownloadFile {
             GetForecastWeatherDaily forecastDaily = new GetForecastWeatherDaily();
             String JSON = null;
             try {
+                System.out.println("Unit do pobrania pogody 10 dniowej to: "+unit);
                 JSON = forecastDaily.execute(location,unit).get();
                 System.out.println("JSON: "+JSON);
             } catch (ExecutionException e) {
