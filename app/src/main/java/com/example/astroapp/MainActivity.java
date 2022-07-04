@@ -50,14 +50,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        System.out.println("Robię on create mainActivity");
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
 
         location = sharedPref.getString("selectedCityInSettings", "Łódź");
-        System.out.println("Lokacja przed pobraniem plików" + location);
 
         DownloadFile.download("current",this, location, isCelsius);
         DownloadFile.download("daily",this, location, isCelsius);
+
         orientation = getResources().getConfiguration().orientation;
         smallestScreenWidth = getResources().getConfiguration().smallestScreenWidthDp;
 
@@ -115,11 +114,11 @@ public class MainActivity extends AppCompatActivity {
 
         //DownloadFile.getWeatherInfo(location, isCelsius,this);
 
-        if (Utils.checkIfFileExists(this)) {
+        /*if (Utils.checkIfFileExists(this)) {
             exists=true;
         } else {
             Toast.makeText(this, "Nie znaleziono pliku z danymi o pogodzie, włącz Internet aby pobrać dane", Toast.LENGTH_LONG).show();
-        }
+        }*/
 
         //To jest potrzebne gdzie indziej
         PACKAGE_NAME = getApplicationContext().getPackageName();

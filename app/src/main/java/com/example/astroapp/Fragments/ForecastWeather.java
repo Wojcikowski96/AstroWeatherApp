@@ -152,9 +152,11 @@ public class ForecastWeather extends Fragment implements FragmentInterface {
     @Override
     public void updateCurrentFragment(Map<String, Object> jsonData, Activity activity, String location) {
         String temperature, pictureCode, description;
+        System.out.println("Json data w Forecascie: "+ jsonData);
 
 
         if(jsonData!=null) {
+            System.out.println("Updatuję fragment");
             jsonData.forEach((k,v) -> {
                 int i = Integer.parseInt(String.valueOf(k.charAt(k.length()-1)));
                 HashMap nestedMapObject = (HashMap)jsonData.get(k);

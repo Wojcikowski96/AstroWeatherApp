@@ -93,14 +93,8 @@ public class Refresher {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
                 forecast.updateCurrentFragment(weatherData3, activity, location);
-
-
-//                AdditionalWeatherData additional = (AdditionalWeatherData)  MainActivity.viewPagerAdapter.getItem(1);
-//                additional.updateAdditionalFragment(location, isCelsius, activity);
-//
-//                ForecastWeather forecast = (ForecastWeather)  MainActivity.viewPagerAdapter.getItem(2);
-//                forecast.updateForecastFragment(location, isCelsius, activity);
 
                 Sun sun = (Sun) MainActivity.viewPagerAdapter.getItem(3);
                 sun.update(sunStrings);
@@ -109,6 +103,8 @@ public class Refresher {
                 moon.update(moonStrings);
 
                 refreshHandler.postDelayed(this, finalDelay * 1000);
+
+                System.out.println("wątek działa");
             }
         };
         r.add(runnable);

@@ -244,7 +244,12 @@ public class Settings extends AppCompatActivity {
                     additional.updateCurrentFragment(weatherDataAdditional, Settings.this, location);
 
                     ForecastWeather forecast = (ForecastWeather) MainActivity.viewPagerAdapter.getItem(2);
-                    Map<String, Object> weatherDataForecast = additional.getDataFromJson(citiesSpinner.getSelectedItem().toString(), isCelsius, Settings.this);
+                    Map<String, Object> weatherDataForecast = null;
+                    try {
+                        weatherDataForecast = forecast.getDataFromJson(citiesSpinner.getSelectedItem().toString(), isCelsius, Settings.this);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     forecast.updateCurrentFragment(weatherDataForecast,Settings.this, location);
                 }
             }
